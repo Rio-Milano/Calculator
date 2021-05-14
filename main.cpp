@@ -17,6 +17,7 @@ int main()
 {
     char answer{};
 
+    std::cout << "Press enter :" << std::endl;
     do {
         toPostFix x(getMathExpression());
 
