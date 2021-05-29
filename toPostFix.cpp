@@ -17,7 +17,7 @@ const std::vector<std::string>& toPostFix::getPostFixExpression()
         {
             if (token == "(")
                 operatorStack.push_back(token);
-            else if (token == ")")//if we get a (
+            else if (token == ")")
             {
                 //while we dont have access to the ( 
                 while (!operatorStack.empty() && operatorStack[operatorStack.size() - 1] != "(") {
