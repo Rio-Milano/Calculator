@@ -1,6 +1,7 @@
 #include "ExpressionParser.h"
 
 #include<iostream>
+#include<stdexcept>
 
 Expression_Parser::Expression_Parser(const std::vector<std::string>& input)
 {
@@ -29,6 +30,8 @@ std::shared_ptr<node> Expression_Parser::toTree()
                 if (tokens[i] == "cos" ||//if the token is a function
                     tokens[i] == "tan" ||
                     tokens[i] == "sin") {
+
+
                     temp = std::make_shared<node>((tokens[i]));//create a new node
                     temp->right = expression_tree[expression_tree.size() - 1];//have the right tree contain the furthest token in the vector
                     expression_tree.pop_back();//take the furthest token in the vector away
@@ -40,8 +43,13 @@ std::shared_ptr<node> Expression_Parser::toTree()
                     temp = std::make_shared<node>(tokens[i]);//create a new node
                     temp->right = (expression_tree[expression_tree.size() - 1]);//have the right tree set to the furthest token in the vector
                     expression_tree.pop_back();//take the furthest token in the vector away
-                    temp->left = (expression_tree[expression_tree.size() - 1]);//have the left tree set to the furthest token in the vector
-                    expression_tree.pop_back();//take the furthest token in the vector away
+                    
+                    if (expression_tree.size() > 0)
+                    {
+                        temp->left = (expression_tree[expression_tree.size() - 1]);//have the left tree set to the furthest token in the vector
+                        expression_tree.pop_back();//take the furthest token in the vector away
+                    }
+                    
                     expression_tree.push_back(temp);//put the new token in the vector
                 }
             }
@@ -53,20 +61,27 @@ std::shared_ptr<node> Expression_Parser::toTree()
     }
 
 
-    catch (std::string e)
+    catch (std::out_of_range)
     {
-        std::cout << "ERROR" << std::endl;
-        exit(EXIT_FAILURE);
+        std::cout << "ERROR : OUT OF BOUNDS" << std::endl;
+        return nullptr;
     }
 }
 
 long double Expression_Parser::evaluateExpressionTree(const std::shared_ptr<node>& root)
 {
+    if (root == nullptr) return 0;
     //Evaluate each token as they should be evaluated using a recursive approach. This will result in a final answer
     if (root->data == "+")
         return evaluateExpressionTree(root->left) + evaluateExpressionTree(root->right);
     if (root->data == "-")
-        return evaluateExpressionTree(root->left) - evaluateExpressionTree(root->right);
+    {
+        if(root->left == nullptr)
+            return -evaluateExpressionTree(root->right);
+        else
+            return evaluateExpressionTree(root->left) - evaluateExpressionTree(root->right);
+    }
+
     if (root->data == "*")
         return evaluateExpressionTree(root->left) * evaluateExpressionTree(root->right);
     if (root->data == "/")
@@ -112,10 +127,10 @@ long double Expression_Parser::evaluateExpressionTree(const std::shared_ptr<node
         else
             return data;
     }
-    catch (std::string e)
+    catch (std::invalid_argument)
     {
-        std::cout << "ERROR" << std::endl;
-        exit(EXIT_FAILURE);
+        std::cout << "ERROR : INVALID ARGUMENT" << std::endl;
+        return 0;
     }
     //if not a function or operator then return the data in the node
 };

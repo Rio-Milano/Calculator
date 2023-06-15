@@ -20,7 +20,7 @@ int main()
     std::cout << "Press enter :" << std::endl;
     do {
         toPostFix x(getMathExpression());
-
+        
         Expression_Parser myTree(x.getPostFixExpression());
 
         std::shared_ptr<node> tree = myTree.toTree();
