@@ -91,10 +91,30 @@ const std::vector<std::string> getMathExpression()
 
         if (isOperator(token_one) && token_two == "-" && token_three == "(")
         {
-            //remove the inverse of the bracket
+            //remove the inverse of the bracket "-"
             mathExpression.erase(mathExpression.begin() + i + 1);
+
+            //insert a "-1" after the bracket
             mathExpression.insert(mathExpression.begin() + i + 2, "-1");
+
             mathExpression.insert(mathExpression.begin() + i + 3, "*");
+
+            mathExpression.insert(mathExpression.begin() + i + 4, "(");
+
+            int bracket_alt = 0;
+
+            for (size_t j = i + 5; j < mathExpression.size(); j++)
+            {
+                if (mathExpression[j] == "(") bracket_alt += 1;
+                else if (mathExpression[j] == ")") bracket_alt -= 1;
+
+                if (bracket_alt == -1)
+                {
+                    mathExpression.insert(mathExpression.begin() + j, ")");
+                    break;
+                }
+
+            }
         }
         
     }
