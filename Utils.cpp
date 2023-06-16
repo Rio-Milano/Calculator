@@ -76,5 +76,89 @@ const std::vector<std::string> getMathExpression()
     if (buildString.size() > 0)//Push the remaining token into the expression
         mathExpression.push_back(buildString);
 
+
+    //loop through each token
+    for (size_t i = 0ull; i < mathExpression.size(); i++)
+    {
+        //if we cant read the next 3 tokens from i then stop loop
+        if ((mathExpression.size() - i) < 3)
+            break;
+
+        const std::string&
+            token_one = mathExpression[i],
+            token_two = mathExpression[i + 1],
+            token_three = mathExpression[i + 2];
+
+        if (isOperator(token_one) && token_two == "-" && token_three == "(")
+        {
+            //remove the inverse of the bracket
+            mathExpression.erase(mathExpression.begin() + i + 1);
+            mathExpression.insert(mathExpression.begin() + i + 2, "-1");
+            mathExpression.insert(mathExpression.begin() + i + 3, "*");
+        }
+        
+    }
+
     return mathExpression;
+}
+
+
+const int getOperatorPrecedance(const std::string& givenOperator)
+{
+    //get the precedance of the token
+    if (givenOperator == "^")
+        return 4;
+    if (givenOperator == "*")
+        return 3;
+    if (givenOperator == "/")
+        return 3;
+    if (givenOperator == "+")
+        return 2;
+    if (givenOperator == "-")
+        return 2;
+    if (givenOperator == "(")
+        return 1;
+    if (givenOperator == ")")
+        return 1;
+    if (givenOperator == "cos")
+        return 5;
+    if (givenOperator == "tan")
+        return 5;
+    if (givenOperator == "sin")
+        return 5;
+    else
+        return 0;
+
+}
+
+const bool isOperator(const std::string& givenOperator)
+{
+    //determine if the token is an operator
+    if (givenOperator == "^")
+        return true;
+    if (givenOperator == "*")
+        return true;
+    if (givenOperator == "/")
+        return true;
+    if (givenOperator == "+")
+        return true;
+    if (givenOperator == "-")
+        return true;
+    if (givenOperator == "(")
+        return true;
+    if (givenOperator == ")")
+        return true;
+    return false;
+}
+
+const bool isFunction(const std::string& givenOperator)
+{
+    //determine if the token is a function
+    if (givenOperator == "cos")
+        return true;
+    if (givenOperator == "tan")
+        return true;
+    if (givenOperator == "sin")
+        return true;
+    return false;
 }

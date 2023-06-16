@@ -21,13 +21,6 @@ private:
     std::vector<std::string> postFixExpression;
 
     std::vector<std::string> operatorStack;
-
-    const int getOperatorPrecedance(const std::string& givenOperator);
-
-    const bool isOperator(const std::string& givenOperator);
-
-    const bool isFunction(const std::string& givenOperator);
-
 };
 
 

@@ -1,4 +1,5 @@
 #include "toPostFix.h"
+#include "Utils.h"
 
 toPostFix::toPostFix(const std::vector<std::string>& givenInFixExpression)
 {
@@ -53,62 +54,3 @@ const std::vector<std::string>& toPostFix::getPostFixExpression()
     return postFixExpression;
 }
 
-const int toPostFix::getOperatorPrecedance(const std::string& givenOperator)
-{
-    //get the precedance of the token
-    if (givenOperator == "^")
-        return 4;
-    if (givenOperator == "*")
-        return 3;
-    if (givenOperator == "/")
-        return 3;
-    if (givenOperator == "+")
-        return 2;
-    if (givenOperator == "-")
-        return 2;
-    if (givenOperator == "(")
-        return 1;
-    if (givenOperator == ")")
-        return 1;
-    if (givenOperator == "cos")
-        return 5;
-    if (givenOperator == "tan")
-        return 5;
-    if (givenOperator == "sin")
-        return 5;
-    else
-        return 0;
-
-}
-
-const bool toPostFix::isOperator(const std::string& givenOperator)
-{
-    //determine if the token is an operator
-    if (givenOperator == "^")
-        return true;
-    if (givenOperator == "*")
-        return true;
-    if (givenOperator == "/")
-        return true;
-    if (givenOperator == "+")
-        return true;
-    if (givenOperator == "-")
-        return true;
-    if (givenOperator == "(")
-        return true;
-    if (givenOperator == ")")
-        return true;
-    return false;
-}
-
-const bool toPostFix::isFunction(const std::string& givenOperator)
-{
-    //determine if the token is a function
-    if (givenOperator == "cos")
-        return true;
-    if (givenOperator == "tan")
-        return true;
-    if (givenOperator == "sin")
-        return true;
-    return false;
-}
