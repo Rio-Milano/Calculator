@@ -55,7 +55,7 @@ std::shared_ptr<node> Expression_Parser::toTree()
             }
 
         }
-        temp = expression_tree[expression_tree.size() - 1];//get the root node of the expression tree
+        temp = expression_tree.size() > 0 ?  expression_tree[expression_tree.size() - 1] : nullptr;//get the root node of the expression tree
         expression_tree.resize(0);//reset the expression tree
         return temp;//return the root node of the expression tree
     }
